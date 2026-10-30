@@ -1,0 +1,6 @@
+{
+  "appId": "com.jarvisfriday.app",
+  "appName": "JARVIS FRIDAY",
+  "webDir": "www",
+  "server": { "androidScheme": "https" }
+}

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>J.A.R.V.I.S. × F.R.I.D.A.Y.</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060b12;--pan:#0c141d;--c:#22d3ee;--cd:#0e7490;--o:#ff9d2e;--od:#7a4a12;--r:#ff5a3c;--g:#34e08a;--t:#cfe9f2;--m:#5d7885;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#060b12;--pan:#0c141d;--t:#cfe9f2}}
+:root[data-theme="dark"]{--bg:#060b12;--pan:#0c141d;--t:#cfe9f2}
+*{box-sizing:border-box}html,body{height:100%;margin:0;background:var(--bg);color:var(--t);font-family:Rajdhani,system-ui,sans-serif;font-size:16px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--o);outline-offset:2px}
+.scr{display:none;min-height:100%;flex-direction:column;align-items:center;justify-content:center;padding:28px 22px;text-align:center;gap:14px}
+.scr.on{display:flex}
+.logo{font-family:Orbitron,sans-serif;color:var(--c);letter-spacing:.35em;font-size:clamp(26px,9vw,40px);text-shadow:0 0 18px #22d3ee66;margin:0}
+.sub{color:var(--cd);font-size:11px;letter-spacing:.22em}
+.btn{background:#22d3ee14;border:1px solid var(--cd);color:var(--c);padding:13px 22px;letter-spacing:.25em;min-width:240px;font-size:14px}
+.btn:active{background:#22d3ee33}.btn.st{border-color:var(--r);color:var(--r);background:#ff5a3c14}
+input.in{background:transparent;border:1px solid var(--cd);padding:12px;text-align:center;width:min(300px,100%);font-size:17px;color:var(--t)}
+.fp{width:110px;height:110px;border-radius:50%;border:1.5px solid var(--cd);display:grid;place-items:center;background:transparent;transition:.3s;position:relative}
+.fp svg{width:56px;height:56px;stroke:var(--c);fill:none;stroke-width:1.6}
+.fp.scan{box-shadow:0 0 30px #22d3ee66;border-color:var(--c);animation:pu 1s infinite}.fp.ok{border-color:var(--g);box-shadow:0 0 28px #34e08a66}.fp.ok svg{stroke:var(--g)}
+@keyframes pu{50%{box-shadow:0 0 6px #22d3ee33}}
+.ok-t{color:var(--g);letter-spacing:.3em;min-height:1.2em}
+.hl{color:var(--c)}
+.feat{display:flex;gap:12px;align-items:center;text-align:left;width:min(340px,100%);opacity:0;transform:translateY(8px);animation:fi .5s forwards}
+.feat b{display:block;color:var(--c);letter-spacing:.14em;font-size:14px}.feat span{font-size:13px;color:var(--m)}.feat i{font-style:normal;font-size:24px}
+@keyframes fi{to{opacity:1;transform:none}}
+.si{width:74px;height:84px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:var(--r);display:grid;place-items:center;font-family:Orbitron;font-size:24px;color:var(--bg)}
+.red{color:var(--r);font-family:Orbitron;letter-spacing:.2em}
+.log{width:min(360px,100%);text-align:left;font:13px/1.7 ui-monospace,monospace;color:var(--cd);min-height:190px}.log .k{color:var(--c)}
+.bar{width:min(360px,100%);height:4px;background:#12202c}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2563eb,var(--c));transition:width .3s}
+/* app */
+#app{display:none;min-height:100%;flex-direction:column;--c:var(--o);--cd:var(--od)}
+#app.on{display:flex}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#0d0d12ee;border-bottom:1px solid var(--od);display:flex;align-items:center;gap:10px;padding:10px 14px}
+header h1{font:700 15px Orbitron;letter-spacing:.3em;color:var(--o);margin:0}header small{display:block;font-size:10px;color:var(--m);letter-spacing:.2em}
+#clk{margin-left:auto;font:700 20px Orbitron;color:var(--o)}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:19;background:var(--bg)}
+nav button{flex:none;background:transparent;border:1px solid #2a2418;color:var(--m);padding:8px 14px;letter-spacing:.1em;font-size:13px}
+nav button.on{border-color:var(--o);color:var(--o);background:#ff9d2e18}
+main{padding:4px 12px 40px;max-width:640px;width:100%;margin:0 auto}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--pan);border:1px solid #2a2418;padding:14px;margin:0 0 14px;position:relative}
+.card::before{content:"";position:absolute;left:-1px;top:-1px;width:12px;height:12px;border:2px solid var(--o);border-right:0;border-bottom:0}
+.card h2{font:500 14px Orbitron;letter-spacing:.16em;color:var(--o);margin:0 0 12px}
+.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}
+.mt{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.12em;color:var(--m);margin-top:9px}
+.mt+.tr{height:4px;background:#1b1810}.tr i{display:block;height:100%}
+.ab{background:#ff9d2e14;border:1px solid var(--od);color:var(--o);padding:10px 14px;letter-spacing:.14em;font-size:13px}.ab:active{background:#ff9d2e33}
+.fi{background:#0a0a0f;border:1px solid #2a2418;padding:10px;width:100%;color:var(--t)}
+.holo{height:150px;display:grid;place-items:center;position:relative}
+.holo i{position:absolute;border:1px dashed var(--od);border-radius:50%;animation:sp 14s linear infinite}
+.holo i:nth-child(1){width:130px;height:130px}.holo i:nth-child(2){width:84px;height:84px;animation-duration:8s;animation-direction:reverse;border-color:var(--o)}
+.holo b{width:14px;height:14px;border-radius:50%;background:var(--o);box-shadow:0 0 22px var(--o)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.chat{max-height:220px;overflow:auto;font-size:15px;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.chat p{margin:0;padding:8px 10px;max-width:88%}.chat .f{background:#ff9d2e14;border-left:2px solid var(--o)}.chat .u{background:#1b1810;align-self:flex-end}
+.mono{font:12px/1.8 ui-monospace,monospace}.warn{color:var(--o)}.good{color:var(--g)}
+.li{border:1px solid #2a2418;padding:9px 10px;margin-top:8px;display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:14px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.chips button{background:transparent;border:1px solid #2a2418;color:var(--m);padding:5px 10px;font-size:12px}.chips button.on{border-color:var(--o);color:var(--o)}
+.drop{display:block;border:1px dashed var(--od);padding:26px 10px;text-align:center;color:var(--m);font-size:13px;letter-spacing:.12em;cursor:pointer}
+.drop img{max-width:100%;max-height:180px;display:block;margin:0 auto 8px}
+#map{width:100%;height:170px;display:block;background:#08080c}
+input[type=range]{width:100%;accent-color:var(--o)}
+#suit{position:fixed;inset:0;background:#000d;z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;font:500 15px Orbitron;color:var(--o);letter-spacing:.14em}
+#suit.on{display:flex}#suit div{opacity:0;animation:fi .5s forwards}
+#focus{position:fixed;inset:0;background:#000;opacity:.82;z-index:40;display:none;align-items:center;justify-content:center;font:700 44px Orbitron;color:var(--o)}#focus.on{display:flex;flex-direction:column;gap:14px}
+.pick{display:none;min-height:100%;grid-template-rows:1fr 1fr}.pick.on{display:grid}
+@media (min-width:720px){.pick{grid-template-rows:none;grid-template-columns:1fr 1fr}}
+.half{border:0;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;min-height:50vh;text-align:center;transition:filter .2s}
+.half h1{font:700 clamp(22px,7.5vw,36px) Orbitron;letter-spacing:.28em;margin:0}.half small{font-size:12px;letter-spacing:.18em;max-width:270px;line-height:1.5}
+.half.j{background:radial-gradient(circle at 50% 60%,#0b2a3a,#060b12 72%);color:#22d3ee;border-bottom:1px solid #0e7490}
+.half.f{background:radial-gradient(circle at 50% 40%,#2a1a08,#0d0d12 72%);color:#ff9d2e}
+.half:active{filter:brightness(1.3)}
+.rg{width:84px;height:84px;border-radius:50%;border:1.5px dashed currentColor;display:grid;place-items:center;animation:sp 14s linear infinite}.rg b{width:12px;height:12px;border-radius:50%;background:currentColor;box-shadow:0 0 18px currentColor}
+.jonly{display:none}.jv .jonly{display:block}
+#app.jv{--o:#22d3ee;--od:#0e7490}
+.jv .ab,.jv .chat .f{background:#22d3ee14}.jv .ab:active{background:#22d3ee33}.jv nav button.on{background:#22d3ee18}
+.jv header{background:#060b12ee}.jv .card,.jv nav button{border-color:#12303a}
+.fscr .logo{color:var(--o);text-shadow:0 0 18px #ff9d2e66}.fscr .btn{border-color:var(--od);color:var(--o);background:#ff9d2e14}.fscr input.in{border-color:var(--od)}
+.fscr .sub{color:var(--od)}.fscr .bar i{background:linear-gradient(90deg,#b45309,var(--o))}.fscr .log{color:var(--od)}.fscr .log .k{color:var(--o)}.fscr .hl{color:var(--o)}
+a.ab{text-decoration:none;display:inline-block}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.feat{opacity:1;transform:none}}
+</style></head><body>
+
+<section class="pick on" id="s-pick"><button class="half j" id="pj"><div class="rg"><b></b></div><h1>J.A.R.V.I.S.</h1><small>JUST A RATHER VERY INTELLIGENT SYSTEM</small><small style="opacity:.6">Dokun ve J.A.R.V.I.S.’e gir</small></button><button class="half f" id="pf"><div class="rg"><b></b></div><h1>F.R.I.D.A.Y.</h1><small>FEMALE REPLACEMENT INTELLIGENT DIGITAL ASSISTANT YOUTH</small><small style="opacity:.6">Dokun ve F.R.I.D.A.Y.’e gir</small></button></section>
+<section class="scr fscr" id="s-flogin"><p class="sub">STARK INDUSTRIES · ERİŞİM</p><h1 class="logo">F.R.I.D.A.Y.</h1><p class="sub">KİMLİK DOĞRULAMA</p><input class="in" id="fnm" placeholder="Adın" maxlength="24" autocomplete="given-name"><button class="btn" id="fgo">F.R.I.D.A.Y.’E GİR</button><button class="btn" id="fback" style="min-width:0;border-color:#2a2418;color:var(--m)">← GERİ</button></section>
+<section class="scr" id="s-login"><p class="sub">STARK INDUSTRIES · ERİŞİM</p><h1 class="logo">J.A.R.V.I.S.</h1><p class="sub">JUST A RATHER VERY INTELLIGENT SYSTEM</p>
+<h2 class="hl" style="letter-spacing:.2em;font-weight:500;margin:26px 0 0">SEN KİMSİN?</h2><p class="sub" style="font-size:13px">Erişim için lütfen kimliğini doğrula.</p>
+<input class="in" id="nm" placeholder="Adın" autocomplete="given-name" maxlength="24"><button class="btn" id="go1">ERİŞİM İSTE</button><button class="btn" id="jback" style="min-width:0;border-color:#12303a;color:var(--m)">← GERİ</button></section>
+
+<section class="scr" id="s-scan"><p class="sub">BİYOMETRİK DOĞRULAMA</p><h2 style="font:500 22px Orbitron;letter-spacing:.1em;margin:0">HOŞ GELDİN, <span class="hl nmx"></span></h2>
+<p class="sub" id="scT" style="font-size:13px;letter-spacing:.05em">Parmağını tarayıcıya koy.</p>
+<button class="fp" id="fp" aria-label="Parmak izini tara"><svg viewBox="0 0 48 48"><path d="M10 24a14 14 0 0 1 28 0M15 24a9 9 0 0 1 18 0M20 24a4 4 0 0 1 8 0M24 24v8M14 34c4-3 6-6 6-10M34 34c-4-3-6-6-6-10"/></svg></button>
+<p class="ok-t" id="scO">TARAMAK İÇİN DOKUN</p></section>
+
+<section class="scr" id="s-wel"><h1 class="logo">J.A.R.V.I.S.</h1><p class="sub">JUST A RATHER VERY INTELLIGENT SYSTEM</p>
+<h2 style="letter-spacing:.14em;font-weight:500;margin:18px 0 0">İYİ GÜNLER, <span class="hl nmx"></span></h2>
+<p style="color:var(--cd);max-width:330px;margin:0">Ben J.A.R.V.I.S. — kişisel yapay zekâ asistanın. Sana azami verimlilik sağlamak için geliştirildim.</p>
+<div id="fl" style="display:flex;flex-direction:column;gap:14px;margin:10px 0"></div><button class="btn" id="go2" style="visibility:hidden">DEVAM →</button></section>
+
+<section class="scr" id="s-stark"><div class="si">SI</div><p class="red" style="font-size:11px;margin:0;opacity:.6">RESMEN ONAYLANDI</p>
+<h1 class="red" style="font-size:30px;margin:0;line-height:1.2">STARK<br>INDUSTRIES</h1><p class="hl" style="letter-spacing:.18em;margin:14px 0 0"><span class="nmx"></span> ARTIK</p>
+<h2 class="red" style="font-size:20px;margin:0">EKİBİN ÜYESİ</h2><p style="color:var(--cd);max-width:320px;margin:0">Artık Stark Industries’in tüm sistemlerine erişimin var. J.A.R.V.I.S. her an emrinde.</p>
+<button class="btn st" id="go3">STARK INDUSTRIES’E GİR</button></section>
+
+<section class="scr" id="s-boot"><h1 class="logo">J.A.R.V.I.S.</h1><p class="sub">JUST A RATHER VERY INTELLIGENT SYSTEM</p>
+<div class="log"><div style="font:17px Rajdhani;color:var(--t)">Ah, <span class="nmx"></span> — tekrar hoş geldin.</div><div id="bl" style="margin-top:10px"></div></div>
+<div class="row" style="width:min(360px,100%);justify-content:space-between;font-size:12px;color:var(--cd)"><span>SİSTEM BAŞLATMA</span><span id="bp">0%</span></div><div class="bar"><i id="bb"></i></div></section>
+
+<div id="app">
+<header><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff9d2e" stroke-width="1.8"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/></svg>
+<div><h1 id="hn">F.R.I.D.A.Y.</h1><small id="dt">STARK INDUSTRIES</small></div><span id="clk">00:00</span><button class="ab" id="sw" aria-label="J.A.R.V.I.S. / F.R.I.D.A.Y. değiştir" style="padding:6px 10px">⇄</button></header>
+<nav id="nav"></nav>
+<main>
+<div class="tab on" id="t0">
+<div class="card jonly"><h2>STARK INDUSTRIES</h2><div class="row"><div class="si" style="width:44px;height:50px;font-size:15px;flex:none">SI</div><div class="mono" style="color:var(--t)">MARK L · ÇEVRİMİÇİ<br>ARK REAKTÖR · 3.0 GW<br>BÜTÜNLÜK · %100<br>KONUM · İSTANBUL, TÜRKİYE</div></div></div>
+<div class="card"><h2>SİSTEM DURUMU <span class="good" style="float:right;font:11px Rajdhani">● ONLINE</span></h2><div id="sys"></div>
+<div class="mt"><span>MARK L · v42.7</span><span>KONUM İSTANBUL, TR</span></div></div>
+<div class="card"><h2>HOLOGRAM ÇEKİRDEĞİ</h2><div class="holo"><i></i><i></i><b></b></div><div class="row" style="justify-content:space-between"><span class="mt" style="margin:0" id="hst">HAZIR — MİKROFONA BAS</span><span class="row"><button class="ab" id="mic" aria-label="Mikrofon">🎤</button><button class="ab" id="spk" aria-label="Sesli yanıt">🔊</button></span></div></div>
+<div class="card"><h2 id="ch">F.R.I.D.A.Y. İLETİŞİM</h2><div class="chat" id="chat"></div><div class="row"><input class="fi" id="ci" placeholder="F.R.I.D.A.Y.’e sor …" autocomplete="off"><button class="ab" id="cs">GÖNDER</button></div></div></div>
+
+<div class="tab" id="t1">
+<div class="card"><h2>KÜRESEL AĞ</h2><canvas id="map" width="600" height="300"></canvas><div class="mt"><span id="mapl">İstanbul · 41.01°K 28.98°D</span><span>ÇEVRİMDIŞI HARİTA</span></div></div>
+<div class="card"><h2>HAVA DURUMU</h2><div class="row"><select class="fi" id="wc"></select></div><div id="wo" style="margin-top:12px"></div><div class="mt"><span>Örnek veri, canlı bağlantı yok</span></div></div>
+<div class="card"><h2>HABER AKIŞI</h2><div class="chips" id="nc"></div><div id="nf"></div><div class="mt"><span>Örnek başlıklar, canlı bağlantı yok</span></div></div></div>
+
+<div class="tab" id="t2">
+<div class="card"><h2>TEHDİT İZLEME</h2><button class="ab" id="scb" style="width:100%">▶ SİSTEM TARAMASINI BAŞLAT</button><div class="bar" style="width:100%;margin-top:10px;background:#1b1810"><i id="sb" style="background:var(--o)"></i></div><div id="sl" class="mono"></div></div>
+<div class="card"><h2>ŞİFRE ÜRETİCİ</h2><div class="mt" style="margin:0 0 6px"><span>UZUNLUK: <b id="pl">24</b></span><span class="good">ASKERİ SEVİYE</span></div><input type="range" id="pr" min="8" max="48" value="24"><div class="fi mono" id="pw" style="margin:10px 0;word-break:break-all"></div><div class="row"><button class="ab" id="pg" style="flex:1">⟳ ÜRET</button><button class="ab" id="pc" style="flex:1">⧉ KOPYALA</button></div></div>
+<div class="card"><h2>GÜVENLİ KASA</h2><div class="row"><input class="fi" id="vn" placeholder="Ad"><input class="fi" id="vs" placeholder="Gizli bilgi"><button class="ab" id="va">+</button></div><div id="vl"></div><div class="mt"><span>Yalnızca bu cihazda saklanır, şifrelenmez</span></div></div></div>
+
+<div class="tab" id="t3">
+<div class="card"><h2>OPERASYON SIRASI</h2><input class="fi" id="tt" placeholder="Görev başlığı …"><input class="fi" id="td" placeholder="Açıklama (isteğe bağlı)" style="margin-top:8px"><div class="row" style="margin-top:8px"><button class="ab" id="ta" style="flex:1">+ EKLE</button><button class="ab" id="tp" style="flex:1">⚡ YZ ÖNCELİKLENDİRME</button></div>
+<div class="chips" id="tf"></div><div id="tl"></div></div>
+<div class="card"><h2>ZAMANLAYICI &amp; ODAK MODU</h2><div class="row"><input class="fi" id="tm" type="number" min="1" max="180" value="25" style="max-width:90px"><button class="ab" id="tg" style="flex:1">▶ ZAMANLAYICI</button><button class="ab" id="fg" style="flex:1">🔥 ODAK</button></div><div class="mt"><span id="tr">Zamanlayıcı yok</span></div></div></div>
+
+<div class="tab" id="t4">
+<div class="card"><h2>GÖRSEL ANALİZ</h2><label class="drop" id="d1"><span>GÖRSEL YÜKLE<br>PNG · JPG · GIF</span><input type="file" id="f1" accept="image/*" hidden></label><div class="mono" id="o1"></div></div>
+<div class="card"><h2>BELGE TARAYICI</h2><label class="drop" id="d2"><span>BELGE YÜKLE<br>TXT · MD · CSV · PDF</span><input type="file" id="f2" hidden></label><div class="mono" id="o2"></div></div></div>
+
+<div class="tab" id="t5">
+<div class="card"><h2>??? GİZLİ ARAYÜZ</h2><div class="mono" style="color:var(--od)">BİLİNEN KOMUTLAR:<br>&gt; suit up<br>&gt; jarvis<br>&gt; protocol 1<br>&gt; avengers<br>&gt; stark</div><div class="row" style="margin-top:10px"><input class="fi" id="xi" placeholder="KOMUT GİR …" autocomplete="off"><button class="ab" id="xb">EXEC</button></div><div class="mono warn" id="xo" style="margin-top:10px"></div></div></div>
+<div class="tab" id="t6"><div class="card"><h2>HATIRLATICILAR</h2><input class="fi" id="rt" placeholder="Neyi hatırlatayım?"><div class="row" style="margin-top:8px"><input class="fi" id="rm" type="time" style="max-width:130px"><button class="ab" id="ra" style="flex:1">+ EKLE</button></div><div id="rl"></div><div class="mt"><span>Süre gelince ekranda ve sesle haber veririm. Sayfa açık kalmalı.</span></div></div></div>
+<div class="tab" id="t7"><div class="card"><h2>MÜZİK İSTEĞİ</h2><input class="fi" id="mq" placeholder="Şarkı veya sanatçı (ör. Tarkan Kuşu Uçurdum)"><div class="row" style="margin-top:8px"><button class="ab" id="my" style="flex:1">▶ YOUTUBE</button><button class="ab" id="ms" style="flex:1">♫ SPOTIFY</button></div><div class="mt"><span>Şarkı ilgili uygulamada açılır ve oradan arka planda çalmaya devam eder (YouTube’da arka plan için Premium gerekir). Bu sayfanın kendisi arka planda çalışamaz.</span></div><div id="mh"></div></div>
+<div class="card"><h2>KİŞİ ARA</h2><div class="row"><input class="fi" id="cn" placeholder="Ad"><input class="fi" id="cp" type="tel" placeholder="+90 5xx xxx xx xx"></div><div class="row" style="margin-top:8px"><button class="ab" id="ca" style="flex:1">+ KİŞİ EKLE</button><button class="ab" id="cb" style="flex:1;display:none">📇 REHBERDEN SEÇ</button></div><div id="cl"></div><div class="mt"><span>“Ahmet’i ara” de ya da yaz; arama ekranı açılır, aramayı sen onaylarsın.</span></div></div></div>
+</main></div>
+<div id="suit"></div><div id="focus"><div id="fT"></div><button class="ab" id="fx">KAPAT</button></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let name="Agent",speak=true;
+const store={g(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},s(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const show=id=>{$$(".scr,.pick").forEach(e=>e.classList.toggle("on",e.id===id));$("#app").classList.remove("on")};
+const nmx=()=>$$(".nmx").forEach(e=>e.textContent=name.toLocaleUpperCase("tr-TR"));
+const say=t=>{if(!speak||!window.speechSynthesis)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="tr-TR";speechSynthesis.speak(u)}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// onboarding
+$("#go1").onclick=()=>{const v=$("#nm").value.trim();if(!v){$("#nm").focus();return}name=v;store.s("jf_name",v);nmx();show("s-scan")};
+$("#nm").onkeydown=e=>{if(e.key==="Enter")$("#go1").click()};
+let scanning=false;
+$("#fp").onclick=()=>{if(scanning)return;scanning=true;const f=$("#fp");f.classList.add("scan");$("#scT").textContent="Tarama sürüyor … lütfen kıpırdama.";$("#scO").textContent="";
+setTimeout(()=>{f.classList.replace("scan","ok");$("#scT").textContent="Kimlik doğrulandı. Erişim verildi.";$("#scO").textContent="ERİŞİM VERİLDİ"},2400);
+setTimeout(()=>{show("s-wel");feats()},3900)};
+function feats(){const F=[["🧠","YZ ASİSTAN","Her soruya akıllıca yanıt"],["✅","GÖREVLER","Projelerini ve görevlerini yönet"],["⏰","HATIRLATICILAR","Artık hiçbir şeyi unutma"],["🔥","ODAK MODU","İstediğin an azami verimlilik"],["⏱️","ZAMANLAYICI","Hassas zaman kontrolü"]];
+$("#fl").innerHTML="";F.forEach((f,i)=>setTimeout(()=>{$("#fl").insertAdjacentHTML("beforeend",`<div class="feat"><i>${f[0]}</i><div><b>${f[1]}</b><span>${f[2]}</span></div></div>`)},700+i*650));
+setTimeout(()=>$("#go2").style.visibility="visible",700+F.length*650)}
+$("#go2").onclick=()=>show("s-stark");
+$("#go3").onclick=()=>{show("s-boot");boot("j")};
+function boot(m){const J=m==="j",B=$("#s-boot");B.classList.toggle("fscr",!J);B.querySelector(".logo").textContent=J?"J.A.R.V.I.S.":"F.R.I.D.A.Y.";B.querySelector(".sub").textContent=J?"JUST A RATHER VERY INTELLIGENT SYSTEM":"STARK INDUSTRIES · OPERASYON";
+B.querySelector(".log div").innerHTML=J?'Ah, <span class="nmx"></span> — tekrar hoş geldin.':'Hoş geldin, <span class="nmx"></span>. F.R.I.D.A.Y. hazırlanıyor.';nmx();$("#bb").style.width="0";$("#bp").textContent="0%";
+const L=J?["Çekirdek işlemciler etkinleştirildi","Sinir ağları yükleniyor","YZ alt sistemleri eşitlendi","Türkçe ses modülü ayarlandı","Güvenlik protokolü seviye 7 etkin","Görev yönetimi hazır","Hatırlatıcı sistemi yüklendi","Odak modülleri çevrimiçi"]:["Çekirdek modülleri başlatıldı","Holografik arayüz yükleniyor","Güvenlik katmanı etkin","Türkçe ses modülü ayarlandı","Operasyon kanalı açık","İstihbarat akışı hazır"];
+$("#bl").innerHTML=`<div class="k">${J?"STARK OS V9.4.1 — BAŞLATILIYOR":"F.R.I.D.A.Y. OS — BAŞLATILIYOR"}</div>`;L.forEach((l,i)=>setTimeout(()=>{$("#bl").insertAdjacentHTML("beforeend",`<div>&gt; ${l} … OK</div>`);const p=Math.round((i+1)/L.length*100);$("#bb").style.width=p+"%";$("#bp").textContent=p+"%"},500+i*450));
+setTimeout(()=>{$("#bl").insertAdjacentHTML("beforeend",'<div class="k">Tüm sistemler çalışıyor.</div>')},500+L.length*450);
+setTimeout(()=>openApp(m),1000+L.length*450)}
+function openApp(m){const J=m==="j",A=$("#app");A.classList.toggle("jv",J);$$(".scr,.pick").forEach(e=>e.classList.remove("on"));A.classList.add("on");$("#hn").textContent=J?"J.A.R.V.I.S.":"F.R.I.D.A.Y.";$("#ch").textContent=J?"J.A.R.V.I.S. İLETİŞİM":"F.R.I.D.A.Y. İLETİŞİM";mk(J?[0,3,6,7]:[0,1,2,3,4,5,7],J);
+const g=J?"İyi günler, "+name+". Tüm sistemler çalışıyor. Bana saati, görevleri, zamanlayıcıyı veya odak modunu sorabilirsin.":"Merhaba "+name+", F.R.I.D.A.Y. emrinde. Operasyon, güvenlik ve istihbarat modülleri hazır.";$("#chat").innerHTML="";reply(g,1);say(g)}
+// tabs
+const TN={0:["MERKEZ","ÇEKİRDEK"],1:["İSTİHBARAT"],2:["GÜVENLİK"],3:["OPERASYON","GÖREVLER"],4:["YZ LAB"],5:["???"],6:["HATIRLATICI"],7:["MEDYA"]};
+function mk(ix,J){$("#nav").innerHTML="";ix.forEach(i=>{const b=document.createElement("button");b.textContent=TN[i][J?1:0]||TN[i][0];b.dataset.i=i;b.onclick=()=>tab(i);$("#nav").append(b)});tab(ix[0])}
+function tab(i){$$("#nav button").forEach(b=>b.classList.toggle("on",+b.dataset.i===i));$$(".tab").forEach(t=>t.classList.toggle("on",t.id==="t"+i));if(i===1)drawMap();window.scrollTo(0,0)}
+// clock & status
+function tick(){const d=new Date();$("#clk").textContent=d.toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit",timeZone:"Europe/Istanbul"});$("#dt").textContent=d.toLocaleDateString("tr-TR",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"Europe/Istanbul"}).toLocaleUpperCase("tr-TR")}
+tick();setInterval(tick,10000);
+const SY=[["CPU ÇEKİRDEK","#22d3ee",38],["BELLEK","#ff9d2e",62],["AĞ","#34e08a",89],["ARK REAKTÖR","#ff5a3c",90]];
+function sys(){$("#sys").innerHTML=SY.map((s,i)=>`<div class="mt"><span>${s[0]}</span><span style="color:${s[1]}">${s[2]}%</span></div><div class="tr"><i style="width:${s[2]}%;background:${s[1]}"></i></div>`).join("")}
+sys();setInterval(()=>{SY.forEach(s=>s[2]=Math.max(20,Math.min(99,s[2]+Math.round(Math.random()*6-3))));sys()},3000);
+// chat
+function reply(t,f){const c=$("#chat");c.insertAdjacentHTML("beforeend",`<p class="${f?"f":"u"}">${esc(t)}</p>`);c.scrollTop=1e9}
+function ask(q){const l=q.toLocaleLowerCase("tr-TR"),d=new Date();let a;
+if(/saat|zaman\b/.test(l)&&!/zamanlay|sayaç|dakika/.test(l))a="Saat "+d.toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit",timeZone:"Europe/Istanbul"})+".";
+else if(/tarih|bugün|gün ne|hangi gün/.test(l))a="Bugün "+d.toLocaleDateString("tr-TR",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"Europe/Istanbul"})+".";
+else if(/youtube|spotify|şarkı|müzik|oynat|(^|\s)çal(\s|$)/.test(l)){const p=/spotify/.test(l)?"s":"y",w=q.replace(/youtube|spotify/ig,"").replace(/['’]\s*(da|de|ta|te|dan|den)(?=\s|$)/ig," ").replace(/(^|\s)(da|de|dan|den)(?=\s|$)/ig," ").replace(/şarkısını|şarkısı|şarkı|çalsın|çal|aç|oynat|dinlet|istiyorum|bana|müzik/ig," ").replace(/['’]/g," ").replace(/\s+/g," ").trim();
+if(!w){a="Hangi şarkıyı açayım? Örnek: “Spotify’da Tarkan Kuşu Uçurdum çal”.";tab(7)}else{const u=play(w,p),pn=p==="s"?"Spotify":"YouTube";a=`${pn}’da “${w}” aranıyor. Uygulama açılmazsa aşağıdaki bağlantıya dokun.`;setTimeout(()=>lnk("▶ “"+w+"” — "+pn+"’da aç",u),0)}}
+else if(/(^|\s)ara(\s|$)/.test(l.replace(/['’]/g," "))){const L2=l.replace(/['’]/g," "),c=cons.find(x=>L2.includes(x.n.toLocaleLowerCase("tr-TR"))),mm=q.match(/\+?\d[\d\s()-]{6,}/),num=c?c.p:(mm?mm[0]:"");
+if(num){const nm=c?c.n:num,u="tel:"+num.replace(/[^\d+]/g,"");a=`${nm} aranıyor. Arama ekranı açılmazsa bağlantıya dokun.`;dial(u);setTimeout(()=>lnk("📞 "+nm+" — ara",u),0)}else{a="Bu isimde kişi bulamadım. MEDYA sekmesinden kişi ekleyebilirsin.";tab(7)}}
+else if(/görev|gorev|yapılacak/.test(l)){const o=tasks.filter(t=>t.s!=="TAMAMLANDI").length,k=tasks.length-o;a=tasks.length?`${o} açık, ${k} tamamlanmış görevin var.`:"Görev sıran boş. OPERASYON sekmesinden görev ekleyebilirsin."}
+else if(/(\d+)\s*(dk|dakika|min)|zamanlay|sayaç|sayac/.test(l)){const m=+(l.match(/\d+/)||[25])[0];$("#tm").value=m;startTimer(m);a=`Zamanlayıcı ${m} dakikaya kuruldu.`}
+else if(/odak/.test(l)){startFocus();a="Odak modu etkin."}
+else if(/hava/.test(l)){if($("#app").classList.contains("jv"))a="Hava durumu F.R.I.D.A.Y. tarafında. ⇄ ile geçebilirsin.";else{tab(1);a="Hava durumu ekranını açtım (örnek veri)."}}
+else if(/tara|güvenlik|guvenlik/.test(l)){if($("#app").classList.contains("jv"))a="Güvenlik modülü F.R.I.D.A.Y. tarafında. ⇄ ile geçebilirsin.";else{tab(2);a="Tehdit izleme ekranını açtım."}}
+else if(/hatırlat/.test(l)){if($("#app").classList.contains("jv")){tab(6);a="Hatırlatıcılar ekranını açtım."}else a="Hatırlatıcılar J.A.R.V.I.S. tarafında. ⇄ ile geçebilirsin."}
+else if(/merhaba|selam|hey\b/.test(l))a="Merhaba "+name+". Nasıl yardımcı olabilirim?";
+else if(/zırh|zirh|suit/.test(l)){suit();a="Mark L devreye giriyor."}
+else a="Buna henüz yanıt veremiyorum. Şunları dene: saat kaç, tarih, görevler, zamanlayıcı 10, odak, hava durumu veya tarama. Bu sürümde gerçek bir yapay zekâ modeli bağlı değil.";
+reply(a,1);say(a)}
+function send(){const v=$("#ci").value.trim();if(!v)return;$("#ci").value="";reply(v,0);try{ask(v)}catch(err){reply("Hata: "+(err&&err.message||err),1)}}
+$("#cs").onclick=send;$("#ci").onkeydown=e=>{if(e.key==="Enter")send()};
+$("#spk").onclick=()=>{speak=!speak;$("#spk").textContent=speak?"🔊":"🔇";if(!speak&&window.speechSynthesis)speechSynthesis.cancel()};
+const isNat=()=>!!(window.Capacitor&&Capacitor.getPlatform&&Capacitor.getPlatform()!=="web"&&Capacitor.Plugins&&Capacitor.Plugins.SpeechRecognition);
+async function nativeMic(){const S=Capacitor.Plugins.SpeechRecognition;try{const a=await S.available();if(a&&a.available===false){reply("Bu telefonda ses tanıma servisi yok. Google uygulamasını güncelle veya yazarak sor.",1);return}
+const pr=await S.requestPermissions();if(pr&&pr.speechRecognition&&pr.speechRecognition!=="granted"){reply("Mikrofon izni verilmedi. Ayarlar > Uygulamalar > bu uygulama > İzinler yolundan mikrofona izin ver.",1);return}
+$("#hst").textContent="ICH HÖRE ZU …".replace("ICH HÖRE ZU","DİNLİYORUM");const r=await S.start({language:"tr-TR",maxResults:1,prompt:"Dinliyorum",partialResults:false,popup:true});const t=r&&r.matches&&r.matches[0];
+if(t){reply(t,0);try{ask(t)}catch(err){reply("Hata: "+(err&&err.message||err),1)}}else reply("Ses duyamadım, tekrar dene.",1)}catch(e){reply("Mikrofon çalışmadı: "+(e&&e.message||e)+". Yazarak sorabilirsin.",1);$("#ci").focus()}finally{$("#hst").textContent="HAZIR — MİKROFONA BAS"}}
+$("#mic").onclick=()=>{if(isNat()){nativeMic();return}const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){reply("Bu tarayıcı sesli girişi desteklemiyor. Yazarak sorabilirsin.",1);return}
+try{const r=new R();r.lang="tr-TR";$("#hst").textContent="ICH HÖRE ZU …";r.onresult=e=>{const t=e.results[0][0].transcript;reply(t,0);try{ask(t)}catch(err){reply("Hata: "+(err&&err.message||err),1)}};r.onend=()=>$("#hst").textContent="HAZIR — MİKROFONA BAS";r.onerror=e=>{const c=e.error;reply(c==="not-allowed"||c==="service-not-allowed"?"Mikrofon bu pencerede engelli (izin sayfaya ulaşmıyor). Bağlantıyı tarayıcıda ayrı sekmede aç ve mikrofon iznini ver. Şimdilik klavyedeki mikrofon tuşuyla yazdırabilirsin.":c==="no-speech"?"Ses duyamadım, tekrar dene.":c==="network"?"Ses tanıma için internet bağlantısı gerekiyor.":"Mikrofon çalışmadı ("+(c||"bilinmeyen hata")+"). Yazarak sorabilirsin.",1);$("#ci").focus()};r.start()}catch(e){reply("Mikrofon kullanılamıyor. Yazarak sorabilirsin.",1)}};
+// intelligence
+const W={İstanbul:["14°C","Parçalı bulutlu",72,18,41.01,28.98],Ankara:["11°C","Açık",55,12,39.93,32.86],İzmir:["18°C","Güneşli",60,14,38.42,27.14],Antalya:["22°C","Güneşli",58,10,36.9,30.7],Bursa:["12°C","Bulutlu",70,9,40.19,29.06],Trabzon:["13°C","Hafif yağmur",84,16,41.0,39.72]};
+$("#wc").innerHTML=Object.keys(W).map(c=>`<option>${c}</option>`).join("");
+$("#wc").onchange=wx;function wx(){const c=$("#wc").value,w=W[c];$("#wo").innerHTML=`<div class="row" style="justify-content:space-between"><b style="font:700 32px Orbitron;color:var(--o)">${w[0]}</b><span>${w[1]}</span></div><div class="mt"><span>Nem ${w[2]}%</span><span>Rüzgâr ${w[3]} km/h</span></div>`;$("#mapl").textContent=`${c} · ${Math.abs(w[4])}°${w[4]>=0?"K":"G"} ${Math.abs(w[5])}°${w[5]>=0?"D":"B"}`;drawMap()}
+function drawMap(){const cv=$("#map"),x=cv.getContext("2d"),sel=$("#wc").value,P=c=>[(W[c][5]-25)/20*560+20,(43.5-W[c][4])/8.5*260+20];x.fillStyle="#08080c";x.fillRect(0,0,600,300);x.fillStyle="#2a2418";for(let i=0;i<60;i++)for(let j=0;j<30;j++)x.fillRect(i*10+4,j*10+4,2,2);
+const cs=getComputedStyle($("#app")).getPropertyValue("--o").trim()||"#ff9d2e";
+Object.keys(W).forEach(c=>{const[a,b]=P(c);x.fillStyle=c===sel?cs:"#5d7885";x.beginPath();x.arc(a,b,c===sel?5:3,0,7);x.fill();x.font="12px sans-serif";x.fillText(c,a+7,b+4)});
+const[a,b]=P(sel);x.strokeStyle=cs;x.lineWidth=1.5;[10,20].forEach(r=>{x.globalAlpha=1-r/26;x.beginPath();x.arc(a,b,r,0,7);x.stroke()});x.globalAlpha=1}
+wx();
+const N={"Teknoloji & YZ":["Yeni dil modelleri yanıt sürelerini belirgin biçimde kısaltıyor","Uç çipler yapay zekâyı doğrudan telefona getiriyor","Ajanlar için açık kaynak araçlar hızla büyüyor"],"Siber Güvenlik":["Oltalama dalgaları sahte kargo bildirimlerini kullanıyor","Geçiş anahtarları büyük hizmetlerde parolaların yerini alıyor","Yönlendirici yazılımındaki sıfır gün açığı kapatıldı"],Uzay:["Yeni ay görevinin fırlatma tarihi yaklaşıyor","Teleskop uzak galaksilerin en net görüntülerini verdi","Uydu interneti yeni bölgelere ulaşıyor"],"Küresel Piyasalar":["Borsalar yeni haftaya sakin başladı","Enerji fiyatları hafif geriledi","Merkez bankası bekle-gör tutumu sinyali verdi"]};
+let nk="Teknoloji & YZ";function news(){$("#nc").innerHTML=Object.keys(N).map(k=>`<button class="${k===nk?"on":""}">${k}</button>`).join("");$$("#nc button").forEach(b=>b.onclick=()=>{nk=b.textContent;news()});$("#nf").innerHTML=N[nk].map(h=>`<div class="li">${h}</div>`).join("")}news();
+// security
+$("#scb").onclick=()=>{let p=0;$("#sl").innerHTML="";$("#scb").disabled=true;const iv=setInterval(()=>{p+=4+Math.random()*6;if(p>=100){p=100;clearInterval(iv);$("#scb").disabled=false;
+$("#sl").innerHTML=[["good","BİLGİ","Güvenlik duvarı etkin – tüm portlar kapalı"],["good","BİLGİ","Şifreleme: AES-512 – Normal"],["warn","UYARI","Bilinmeyen DNS isteği algılandı"],["good","BİLGİ","Biyometrik tarama – Onaylandı"],["good","BİLGİ","Sistem bütünlüğü: 100%"]].map(l=>`<div class="li ${l[0]}">[${l[1]}] ${l[2]}</div>`).join("")}$("#sb").style.width=p+"%"},180)};
+function forge(){const n=+$("#pr").value,cs="abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%^&*()-_=+[]{}<>?",a=new Uint32Array(n);crypto.getRandomValues(a);$("#pw").textContent=[...a].map(v=>cs[v%cs.length]).join("");$("#pl").textContent=n}
+$("#pr").oninput=forge;$("#pg").onclick=forge;forge();
+$("#pc").onclick=async()=>{try{await navigator.clipboard.writeText($("#pw").textContent);$("#pc").textContent="✓ KOPYALANDI"}catch(e){$("#pc").textContent="Kopyalanamadı"}setTimeout(()=>$("#pc").textContent="⧉ KOPYALA",1500)};
+let vault=store.g("jf_vault",[]);function vr(){$("#vl").innerHTML=vault.length?vault.map((v,i)=>`<div class="li"><span>${esc(v.n)}: <span class="mono" data-i="${i}">••••••••</span></span><span><button class="ab" data-s="${i}">👁</button> <button class="ab" data-d="${i}">✕</button></span></div>`).join(""):'<div class="mt"><span>KASA BOŞ</span></div>';
+$$("[data-s]").forEach(b=>b.onclick=()=>{const e=$(`[data-i="${b.dataset.s}"]`);e.textContent=e.textContent==="••••••••"?vault[b.dataset.s].v:"••••••••"});$$("[data-d]").forEach(b=>b.onclick=()=>{vault.splice(b.dataset.d,1);store.s("jf_vault",vault);vr()})}
+$("#va").onclick=()=>{const n=$("#vn").value.trim(),v=$("#vs").value;if(!n||!v)return;vault.push({n,v});store.s("jf_vault",vault);$("#vn").value=$("#vs").value="";vr()};vr();
+// operations
+let tasks=store.g("jf_tasks",[]),flt="TÜMÜ";const ST=["AÇIK","DEVAM EDİYOR","TAMAMLANDI"];
+function tr(){$("#tf").innerHTML=["TÜMÜ",...ST].map(s=>`<button class="${s===flt?"on":""}">${s}</button>`).join("");$$("#tf button").forEach(b=>b.onclick=()=>{flt=b.textContent;tr()});
+const L=tasks.map((t,i)=>({t,i})).filter(o=>flt==="TÜMÜ"||o.t.s===flt);$("#tl").innerHTML=L.length?L.map(o=>`<div class="li"><span><b>${o.t.p?"★ ":""}${esc(o.t.t)}</b>${o.t.d?`<br><small style="color:var(--m)">${esc(o.t.d)}</small>`:""}</span><span><button class="ab" data-c="${o.i}">${o.t.s}</button> <button class="ab" data-x="${o.i}">✕</button></span></div>`).join(""):'<div class="mt"><span>GÖREV YOK</span></div>';
+$$("[data-c]").forEach(b=>b.onclick=()=>{const t=tasks[b.dataset.c];t.s=ST[(ST.indexOf(t.s)+1)%3];store.s("jf_tasks",tasks);tr()});$$("[data-x]").forEach(b=>b.onclick=()=>{tasks.splice(b.dataset.x,1);store.s("jf_tasks",tasks);tr()})}
+$("#ta").onclick=()=>{const t=$("#tt").value.trim();if(!t)return;tasks.push({t,d:$("#td").value.trim(),s:"AÇIK",p:0});$("#tt").value=$("#td").value="";store.s("jf_tasks",tasks);tr()};
+$("#tp").onclick=()=>{const k=/acil|bugün|önemli|son gün|hemen|dringend|urgent|deadline/i;tasks.forEach(t=>t.p=k.test(t.t+" "+t.d)?1:0);tasks.sort((a,b)=>b.p-a.p||ST.indexOf(a.s)-ST.indexOf(b.s));store.s("jf_tasks",tasks);tr();reply("Önceliklendirme tamamlandı: “acil”, “bugün”, “önemli” gibi sözcükler içeren görevler en üstte (kural tabanlı, yapay zekâ modeli yok).",1)};tr();
+let tI,tE;function startTimer(m){clearInterval(tI);tE=Date.now()+m*6e4;tI=setInterval(()=>{const s=Math.round((tE-Date.now())/1e3);if(s<=0){clearInterval(tI);$("#tr").textContent="Süre doldu";say("Zamanlayıcı doldu.");try{navigator.vibrate&&navigator.vibrate([300,100,300])}catch(e){}reply("Zamanlayıcın doldu.",1);return}$("#tr").textContent=`Süre: ${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`},500)}
+$("#tg").onclick=()=>startTimer(Math.max(1,+$("#tm").value||25));
+function startFocus(){const m=Math.max(1,+$("#tm").value||25);startTimer(m);$("#focus").classList.add("on");clearInterval(window.fI);window.fI=setInterval(()=>{$("#fT").textContent=$("#tr").textContent.replace("Süre: ","")||"";if(!$("#tr").textContent.startsWith("Süre:")){clearInterval(window.fI);$("#focus").classList.remove("on")}},500)}
+$("#fg").onclick=startFocus;$("#fx").onclick=()=>{clearInterval(window.fI);clearInterval(tI);$("#focus").classList.remove("on");$("#tr").textContent="Zamanlayıcı yok"};
+// YZ Lab (yerel analiz)
+const kb=n=>n>1e6?(n/1e6).toFixed(2)+" MB":(n/1e3).toFixed(1)+" KB";
+$("#f1").onchange=e=>{const f=e.target.files[0];if(!f)return;const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=16;const x=c.getContext("2d");x.drawImage(im,0,0,16,16);const d=x.getImageData(0,0,16,16).data;let r=0,g=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2]}const n=d.length/4;r=Math.round(r/n);g=Math.round(g/n);b=Math.round(b/n);const br=Math.round((r*.3+g*.59+b*.11)/2.55);
+$("#d1").innerHTML=`<img src="${u}" alt="Önizleme">`;$("#o1").innerHTML=`Dosya: ${esc(f.name)}<br>Boyut: ${kb(f.size)} · ${im.naturalWidth}×${im.naturalHeight}px<br>Ortalama renk: rgb(${r},${g},${b}) <span style="display:inline-block;width:12px;height:12px;background:rgb(${r},${g},${b})"></span><br>Parlaklık: ${br}%<br><span style="color:var(--m)">Yerel analiz, nesne tanıma yok.</span>`};im.src=u};
+$("#f2").onchange=async e=>{const f=e.target.files[0];if(!f)return;let h=`Dosya: ${esc(f.name)}<br>Tür: ${esc(f.type||"bilinmiyor")} · ${kb(f.size)}`;
+if(/^text\/|\.(md|csv|txt|json)$/i.test(f.type+f.name)){const t=await f.text();h+=`<br>Karakter: ${t.length} · Kelime: ${(t.match(/\S+/g)||[]).length} · Satır: ${t.split("\n").length}<br><span style="color:var(--m)">Başlangıç: ${esc(t.slice(0,140))}…</span>`}else h+='<br><span style="color:var(--m)">İçerik yalnızca metin dosyalarında okunur.</span>';$("#o2").innerHTML=h};
+// classified
+function suit(){const L=["INITIALIZING MARK L…","DEPLOYING CHEST PIECE…","ARM UNITS LOCKED…","LEG ACTUATORS ONLINE…","HELMET ENGAGING…"],s=$("#suit");s.innerHTML=L.map((l,i)=>`<div style="animation-delay:${i*.55}s">› ${l}</div>`).join("")+'<div style="animation-delay:3s;font-size:11px;color:var(--m)">Kapatmak için dokun</div>';s.classList.add("on");setTimeout(()=>s.classList.remove("on"),6000)}
+$("#suit").onclick=()=>$("#suit").classList.remove("on");
+const X={"suit up":()=>{suit();return">> SUIT UP — EXECUTED"},jarvis:()=>">> J.A.R.V.I.S. çevrimiçi. Emrinizdeyim, "+name+".",["protocol 1"]:()=>">> PROTOCOL 1 — Ev partisi protokolü hazır.",avengers:()=>">> AVENGERS — Tüm birimler hazır.",stark:()=>">> STARK INDUSTRIES — Seviye 7 erişim onaylandı."};
+function ex(){const c=$("#xi").value.trim().toLowerCase();$("#xi").value="";$("#xo").textContent=X[c]?X[c]():">> BİLİNMEYEN KOMUT"}$("#xb").onclick=ex;$("#xi").onkeydown=e=>{if(e.key==="Enter")ex()};
+// start: returning users skip onboarding
+const enc=encodeURIComponent;
+function lnk(t,u){const c=$("#chat");c.insertAdjacentHTML("beforeend",`<p class="f"><a href="${u}" target="_blank" rel="noopener" style="color:var(--o)">${esc(t)}</a></p>`);c.scrollTop=1e9}
+function go(u){try{const w=window.open(u,"_blank","noopener");if(!w)location.href=u}catch(e){}}
+function dial(u){try{location.href=u}catch(e){}}
+let hist=store.g("jf_hist",[]),cons=store.g("jf_con",[]);
+function hr(){const t=[...hist].sort((a,b)=>b.c-a.c).slice(0,8);$("#mh").innerHTML=t.length?'<div class="mt"><span>SIK İSTEKLER</span></div>'+t.map(h=>`<div class="li"><span>${h.p==="y"?"▶":"♫"} ${esc(h.q)} <small style="color:var(--m)">×${h.c}</small></span><button class="ab" data-h="${hist.indexOf(h)}">AÇ</button></div>`).join(""):"";$$("[data-h]").forEach(b=>b.onclick=()=>{const h=hist[b.dataset.h];play(h.q,h.p)})}
+function play(q,p){q=q.trim();if(!q)return"";const u=p==="s"?"https://open.spotify.com/search/"+enc(q):"https://www.youtube.com/results?search_query="+enc(q),h=hist.find(x=>x.q.toLowerCase()===q.toLowerCase()&&x.p===p);if(h)h.c++;else hist.push({q,p,c:1});if(hist.length>40)hist.shift();store.s("jf_hist",hist);hr();go(u);return u}
+$("#my").onclick=()=>{if(!play($("#mq").value,"y"))$("#mq").focus()};$("#ms").onclick=()=>{if(!play($("#mq").value,"s"))$("#mq").focus()};
+function cr(){$("#cl").innerHTML=cons.length?cons.map((c,i)=>`<div class="li"><span><b>${esc(c.n)}</b><br><small style="color:var(--m)">${esc(c.p)}</small></span><span><a class="ab" href="tel:${esc(c.p.replace(/[^\d+]/g,""))}">📞 ARA</a> <button class="ab" data-k="${i}">✕</button></span></div>`).join(""):'<div class="mt"><span>KİŞİ YOK</span></div>';$$("[data-k]").forEach(b=>b.onclick=()=>{cons.splice(b.dataset.k,1);store.s("jf_con",cons);cr()})}
+$("#ca").onclick=()=>{const n=$("#cn").value.trim(),p=$("#cp").value.trim();if(!n||p.replace(/\D/g,"").length<7)return;cons.push({n,p});store.s("jf_con",cons);$("#cn").value=$("#cp").value="";cr()};
+if(navigator.contacts&&navigator.contacts.select)$("#cb").style.display="";
+$("#cb").onclick=async()=>{try{const r=await navigator.contacts.select(["name","tel"],{multiple:true});r.forEach(x=>{if(x.name&&x.name[0]&&x.tel&&x.tel[0])cons.push({n:x.name[0],p:x.tel[0]})});store.s("jf_con",cons);cr()}catch(e){reply("Rehber açılamadı. Kişiyi elle ekleyebilirsin.",1)}};cr();hr();
+let rem=store.g("jf_rem",[]);function rr(){$("#rl").innerHTML=rem.length?rem.map((r,i)=>`<div class="li"><span><b>${esc(r.m)}</b> · ${r.t}${r.d?" ✓":""}</span><button class="ab" data-r="${i}">✕</button></div>`).join(""):'<div class="mt"><span>HATIRLATICI YOK</span></div>';$$("[data-r]").forEach(b=>b.onclick=()=>{rem.splice(b.dataset.r,1);store.s("jf_rem",rem);rr()})}
+$("#ra").onclick=()=>{const m=$("#rt").value.trim(),t=$("#rm").value;if(!m||!t)return;const d=new Date(),[h,mi]=t.split(":");d.setHours(+h,+mi,0,0);if(d<=Date.now())d.setDate(d.getDate()+1);rem.push({m,t,ts:d.getTime(),d:0});store.s("jf_rem",rem);$("#rt").value="";rr();try{window.Notification&&Notification.permission==="default"&&Notification.requestPermission()}catch(e){}};rr();
+setInterval(()=>{rem.forEach(r=>{if(!r.d&&Date.now()>=r.ts){r.d=1;store.s("jf_rem",rem);rr();const x="Hatırlatıcı: "+r.m;reply(x,1);say(x);try{navigator.vibrate&&navigator.vibrate([300,100,300])}catch(e){}try{window.Notification&&Notification.permission==="granted"&&new Notification(x)}catch(e){}}})},5000);
+name=store.g("jf_name","")||"Agent";if(name!=="Agent")$("#nm").value=$("#fnm").value=name;
+$("#pj").onclick=()=>{scanning=false;$("#fp").className="fp";$("#scT").textContent="Parmağını tarayıcıya koy.";$("#scO").textContent="TARAMAK İÇİN DOKUN";show("s-login")};
+$("#pf").onclick=()=>show("s-flogin");
+$("#fgo").onclick=()=>{const v=$("#fnm").value.trim();if(!v){$("#fnm").focus();return}name=v;store.s("jf_name",v);nmx();show("s-boot");boot("f")};
+$("#fnm").onkeydown=e=>{if(e.key==="Enter")$("#fgo").click()};
+$("#fback").onclick=$("#jback").onclick=$("#sw").onclick=()=>show("s-pick");
+</script></body></html>
